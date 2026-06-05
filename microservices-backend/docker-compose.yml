@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: ./apps/products/Dockerfile
       target: development
+    # BAD PRACTICE: If a migration fails, the entire container crashes and
+    # restarts in a loop. should be a separate step
     command: >
       sh -c "cd apps/products && npx prisma migrate deploy &&
              npx prisma generate && cd ../.. &&
@@ -17,9 +19,6 @@ services:
       - ./apps/products/.env
     ports:
       - '3000:3000'
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
 
   notifications:
     build:
@@ -34,9 +33,6 @@ services:
       - ./apps/notifications/.env
     ports:
       - '3001:3001'
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
 
   postgres:
     image: postgres:16-alpine
