@@ -12,7 +12,7 @@ export default function Header() {
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md">
             <Package className="h-5.5 w-5.5" />
           </div>
-          <h1 className="text-xl font-bold">Storefront Manager</h1>
+          <h1 className="text-xl font-bold">Store Manager</h1>
         </div>
 
         <Button

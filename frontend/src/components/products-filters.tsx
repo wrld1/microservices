@@ -1,27 +1,42 @@
-import { Search, SlidersHorizontal, RefreshCw } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Search, SlidersHorizontal, RefreshCw, DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import useDebounce from "@/lib/hooks/useDebounce"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
+
+export interface ProductFilters {
+  search: string
+  minPrice?: number
+  maxPrice?: number
+}
 
 interface ProductsFiltersProps {
-  search: string
-  onSearchChange: (value: string) => void
-  minPriceInput: string
-  onMinPriceChange: (value: string) => void
-  maxPriceInput: string
-  onMaxPriceChange: (value: string) => void
-  onClearFilters: () => void
+  onFiltersChange: (filters: ProductFilters) => void
   isFetching: boolean
 }
 
 export function ProductsFilters({
-  search,
-  onSearchChange,
-  minPriceInput,
-  onMinPriceChange,
-  maxPriceInput,
-  onMaxPriceChange,
-  onClearFilters,
+  onFiltersChange,
   isFetching,
 }: ProductsFiltersProps) {
+  const [search, setSearch] = useState("")
+  const [minPriceInput, setMinPriceInput] = useState("")
+  const [maxPriceInput, setMaxPriceInput] = useState("")
+
+  const debouncedSearch = useDebounce(search, 300)
+  const debouncedMinPrice = useDebounce(minPriceInput, 300)
+  const debouncedMaxPrice = useDebounce(maxPriceInput, 300)
+
+  useEffect(() => {
+    onFiltersChange({
+      search: debouncedSearch,
+      minPrice:
+        debouncedMinPrice !== "" ? Number(debouncedMinPrice) : undefined,
+      maxPrice:
+        debouncedMaxPrice !== "" ? Number(debouncedMaxPrice) : undefined,
+    })
+  }, [debouncedSearch, debouncedMinPrice, debouncedMaxPrice, onFiltersChange])
+
   const hasActiveFilters = search || minPriceInput || maxPriceInput
 
   return (
@@ -37,32 +52,32 @@ export function ProductsFilters({
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div className="relative md:col-span-2">
-          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
+        <InputGroup className="md:col-span-2">
+          <InputGroupInput
             type="text"
             placeholder="Search products by name..."
             value={search}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full rounded-xl border border-input bg-background/50 py-2.5 pr-4 pl-10 text-sm shadow-xs outline-hidden transition-all placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
+            onChange={(e) => setSearch(e.target.value)}
           />
-        </div>
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+        </InputGroup>
 
-        <div className="relative">
-          <span className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-muted-foreground">
-            $
-          </span>
-          <input
+        <InputGroup>
+          <InputGroupInput
             type="number"
             placeholder="Min Price"
             value={minPriceInput}
-            onChange={(e) => onMinPriceChange(e.target.value)}
+            onChange={(e) => setMinPriceInput(e.target.value)}
             min="0"
-            className="w-full rounded-xl border border-input bg-background/50 py-2.5 pr-4 pl-8 text-sm shadow-xs outline-hidden transition-all placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
-        </div>
+          <InputGroupAddon>
+            <DollarSign />
+          </InputGroupAddon>
+        </InputGroup>
 
-        <div className="relative">
+        {/* <div className="relative">
           <span className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-muted-foreground">
             $
           </span>
@@ -70,11 +85,25 @@ export function ProductsFilters({
             type="number"
             placeholder="Max Price"
             value={maxPriceInput}
-            onChange={(e) => onMaxPriceChange(e.target.value)}
+            onChange={(e) => setMaxPriceInput(e.target.value)}
             min="0"
             className="w-full rounded-xl border border-input bg-background/50 py-2.5 pr-4 pl-8 text-sm shadow-xs outline-hidden transition-all placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
         </div>
+      </div> */}
+
+        <InputGroup>
+          <InputGroupInput
+            type="number"
+            placeholder="Max Price"
+            value={maxPriceInput}
+            onChange={(e) => setMaxPriceInput(e.target.value)}
+            min="0"
+          />
+          <InputGroupAddon>
+            <DollarSign />
+          </InputGroupAddon>
+        </InputGroup>
       </div>
 
       {hasActiveFilters && (
@@ -98,10 +127,13 @@ export function ProductsFilters({
             )}
           </div>
           <Button
-            variant="ghost"
+            variant="destructive"
             size="xs"
-            onClick={onClearFilters}
-            className="text-xs text-destructive hover:bg-destructive/10"
+            onClick={() => {
+              setSearch("")
+              setMinPriceInput("")
+              setMaxPriceInput("")
+            }}
           >
             Clear All Filters
           </Button>

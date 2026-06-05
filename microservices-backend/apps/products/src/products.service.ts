@@ -10,7 +10,7 @@ import type { ProductCreatedEvent, ProductDeletedEvent } from '@app/common';
 import { ProductsRepository } from './products.repository';
 import { CreateProductDto, GetProductsDto } from './dto';
 import type { PaginatedResponse } from './interfaces/paginated-response';
-import type { Product } from './generated/prisma/client';
+import { Product } from './interfaces/product';
 
 @Injectable()
 export class ProductsService {

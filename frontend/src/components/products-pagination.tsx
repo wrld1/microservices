@@ -54,21 +54,21 @@ export function ProductsPagination({
         <div className="flex items-center gap-2">
           <span className="text-muted-foreground">Show</span>
           <Select
-            defaultValue="8"
+            value={String(limit)}
             onValueChange={(value) => {
               onLimitChange(Number(value))
             }}
           >
             <SelectTrigger className="w-full max-w-48">
-              <SelectValue placeholder="Select a fruit" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value={"4"}>4 items</SelectItem>
-                <SelectItem value={"8"}>8 items</SelectItem>
-                <SelectItem value={"12"}>12 items</SelectItem>
-                <SelectItem value={"24"}>24 items</SelectItem>
+                <SelectLabel>Size</SelectLabel>
+                <SelectItem value="4">4 items</SelectItem>
+                <SelectItem value="8">8 items</SelectItem>
+                <SelectItem value="12">12 items</SelectItem>
+                <SelectItem value="24">24 items</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -78,7 +78,6 @@ export function ProductsPagination({
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                href="#"
                 onClick={(e) => {
                   e.preventDefault()
                   if (page > 1) onPageChange(page - 1)
@@ -120,7 +119,6 @@ export function ProductsPagination({
               return (
                 <PaginationItem key={pageNumber}>
                   <PaginationLink
-                    href="#"
                     isActive={page === pageNumber}
                     onClick={(e) => {
                       e.preventDefault()
@@ -136,7 +134,6 @@ export function ProductsPagination({
 
             <PaginationItem>
               <PaginationNext
-                href="#"
                 onClick={(e) => {
                   e.preventDefault()
                   if (page < totalPages) onPageChange(page + 1)
