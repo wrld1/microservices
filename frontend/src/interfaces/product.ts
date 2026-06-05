@@ -21,13 +21,6 @@ export interface GetProductsQuery {
   maxPrice?: number
 }
 
-// export interface PaginatedProductsResponse {
-//   data: Product[];
-//   total: number;
-//   page: number;
-//   limit: number;
-// }
-
 export interface PaginationMeta {
   total: number
   page: number
