@@ -26,7 +26,8 @@ services:
       target: development
     command: npm run start:dev notifications
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ./apps/notifications/.env
     ports:
@@ -51,6 +52,11 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:

@@ -5,6 +5,8 @@ import { ProductsModule } from './products.module';
 async function bootstrap() {
   const app = await NestFactory.create(ProductsModule);
 
+  app.setGlobalPrefix('api');
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
