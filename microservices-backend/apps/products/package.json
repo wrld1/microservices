@@ -16,13 +16,14 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "pg": "^8.21.0",
+    "prisma": "^7.8.0",
     "reflect-metadata": "^0.2.2",
+    "tsx": "^4.19.0",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.8",
     "@types/express": "^5.0.0",
-    "@types/pg": "^8.20.0",
-    "prisma": "^7.8.0"
+    "@types/pg": "^8.20.0"
   }
 }
