@@ -77,21 +77,6 @@ export function ProductsFilters({
           </InputGroupAddon>
         </InputGroup>
 
-        {/* <div className="relative">
-          <span className="absolute top-1/2 left-3 -translate-y-1/2 text-sm text-muted-foreground">
-            $
-          </span>
-          <input
-            type="number"
-            placeholder="Max Price"
-            value={maxPriceInput}
-            onChange={(e) => setMaxPriceInput(e.target.value)}
-            min="0"
-            className="w-full rounded-xl border border-input bg-background/50 py-2.5 pr-4 pl-8 text-sm shadow-xs outline-hidden transition-all placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
-          />
-        </div>
-      </div> */}
-
         <InputGroup>
           <InputGroupInput
             type="number"
