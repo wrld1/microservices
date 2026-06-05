@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Prisma } from './generated/prisma/client';
+import { Prisma, Product } from './generated/prisma/client';
 import {
   NOTIFICATIONS_QUEUE,
   PRODUCT_CREATED,
@@ -10,7 +10,6 @@ import type { ProductCreatedEvent, ProductDeletedEvent } from '@app/common';
 import { ProductsRepository } from './products.repository';
 import { CreateProductDto, GetProductsDto } from './dto';
 import type { PaginatedResponse } from './interfaces/paginated-response';
-import { Product } from './interfaces/product';
 
 @Injectable()
 export class ProductsService {
