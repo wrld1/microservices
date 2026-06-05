@@ -1,4 +1,4 @@
-FROM node:24-alpine As development
+FROM node:24-alpine AS development
 
 WORKDIR /usr/src/app
 
@@ -14,7 +14,7 @@ COPY libs libs
 
 RUN npm run build notifications
 
-FROM node:24-alpine as production
+FROM node:24-alpine AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -22,8 +22,9 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY apps/notifications/package.json ./package.json
-RUN npm install --omit=dev
+COPY --from=development /usr/src/app/package-lock.json ./package-lock.json
+RUN npm ci --omit=dev
 
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=development /usr/src/app/dist/apps/notifications ./dist/apps/notifications
 
 CMD ["node", "dist/apps/notifications/main"]

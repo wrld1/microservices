@@ -1,4 +1,4 @@
-FROM node:24-alpine As development
+FROM node:24-alpine AS development
 
 WORKDIR /usr/src/app
 
@@ -15,7 +15,7 @@ COPY libs libs
 RUN npx prisma generate --schema=./apps/products/prisma/schema.prisma
 RUN npm run build products
 
-FROM node:24-alpine as production
+FROM node:24-alpine AS production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
@@ -23,9 +23,10 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY apps/products/package.json ./package.json
+COPY --from=development /usr/src/app/package-lock.json ./package-lock.json
 RUN npm ci --omit=dev
 
-COPY --from=development /usr/src/app/dist ./dist
+COPY --from=development /usr/src/app/dist/apps/products ./dist/apps/products
 COPY --from=development /usr/src/app/apps/products/prisma.config.ts ./apps/products/prisma.config.ts
 COPY --from=development /usr/src/app/apps/products/prisma ./apps/products/prisma
 
