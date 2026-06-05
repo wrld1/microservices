@@ -23,6 +23,8 @@ cp apps/notifications/.env.example apps/notifications/.env
 
 # Start all services
 docker compose up --build
+
+#Run DB seed -> Products container -> cd./apps/products -> npx prisma db seed
 ```
 
 The Products API will be available at `http://localhost:3000`.
